@@ -15,11 +15,8 @@ public class Docente extends Persona {
 
 	@Override
 	public boolean controllaAnnoNascita(int anno) {
+		// accetta docenti in età lavorativa (31-61 anni nel 2026)
 		return anno >= 1965 && anno <= 1995;
-	}
-
-	public String getMateriaInsegnata() {
-		return materiaInsegnata;
 	}
 
 	public void setMateriaInsegnata(String materia) {
@@ -40,8 +37,12 @@ public class Docente extends Persona {
 		}
 	}
 
+	public String getMateriaInsegnata() {
+		return materiaInsegnata;
+	}
+	
 	@Override
 	public String toString() {
-		return super.toString() + " | Ruolo: Docente | Materia " + materiaInsegnata;
+		return super.toString() + " | Ruolo: Docente | Materia: " + materiaInsegnata;
 	}
 }

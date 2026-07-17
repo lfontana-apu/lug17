@@ -1,7 +1,5 @@
 package Scuola;
 
-import java.util.Calendar;
-
 public class Studente extends Persona implements Certificato {
 	private int classe;
 	private char sezione;
@@ -32,8 +30,8 @@ public class Studente extends Persona implements Certificato {
 
 	@Override
 	public boolean controllaAnnoNascita(int anno) {
-		int annoCorrente = Calendar.getInstance().get(Calendar.YEAR);
-		int eta = annoCorrente - anno;
+		int eta = 2026 - anno;
+		// Copre i 6-11 anni regolari + anticipi (5 anni) e bocciature (fino a 14)
 		return eta >= 5 && eta <= 14;
 	}
 
@@ -76,20 +74,21 @@ public class Studente extends Persona implements Certificato {
 		return cognomeMedico;
 	}
 
-	public int getClasse() {
-		return classe;
-	}
 
 	public void setClasse(int classe) {
 		this.classe = classe;
 	}
 
-	public char getSezione() {
-		return sezione;
+	public int getClasse() {
+		return classe;
 	}
 
 	public void setSezione(char sezione) {
 		this.sezione = Character.toUpperCase(sezione);
+	}
+
+	public char getSezione() {
+		return sezione;
 	}
 
 	public String getMatricola() {
