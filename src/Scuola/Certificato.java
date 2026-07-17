@@ -6,4 +6,6 @@ public interface Certificato {
 	int getAnnoRilascio();
 
 	String getCognomeMedico();
+
+	boolean isCertificatoValido(int annoCorrente);
 }

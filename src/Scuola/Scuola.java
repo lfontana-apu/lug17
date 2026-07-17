@@ -37,7 +37,7 @@ public class Scuola {
 	}
 
 	private static void stampaMenu() {
-		System.out.println("*MENU GESTIONE*");
+		System.out.println("*MENU GESTIONE SCUOLA E CLUB*");
 		System.out.println("1. Inserisci uno studente");
 		System.out.println("2. Inserisci un docente");
 		System.out.println("3. Inserisci un socio del club di pallavolo");
@@ -48,142 +48,163 @@ public class Scuola {
 	}
 
 	private static void inserisciStudente() {
-	    System.out.println("\n *NUOVA ISCRIZIONE STUDENTE* ");
-	    System.out.print("Nome: ");
-	    String nome = scanner.nextLine();
-	    System.out.print("Cognome: ");
-	    String cognome = scanner.nextLine();
-	    int annoNascita = 0;
-	    while (true) {
-	        System.out.print("Anno di nascita: ");
-	        try {
-	            annoNascita = Integer.parseInt(scanner.nextLine());
-	            int eta = 2026 - annoNascita;
-	            if (eta >= 5 && eta <= 14) {
-	                break;
-	            } else {
-	                System.out.println("[ERRORE] Età non compatibile con la scuola primaria (l'alunno deve avere tra 5 e 14 anni). Riprova.");
-	            }
-	        } catch (NumberFormatException e) {
-	            System.out.println("[ERRORE] Inserisci un anno valido (es. 2018).");
-	        }
-	    }
-	    int classe = 0;
-	    while (true) {
-	        System.out.print("Classe (1-5): ");
-	        try {
-	            classe = Integer.parseInt(scanner.nextLine());
-	            if (classe >= 1 && classe <= 5) {
-	                break;
-	            } else {
-	                System.out.println("[ERRORE] La classe deve essere compresa tra 1 e 5. Riprova.");
-	            }
-	        } catch (NumberFormatException e) {
-	            System.out.println("[ERRORE] Inserisci un numero intero tra 1 e 5.");
-	        }
-	    }
-	    char sezione = ' ';
-	    while (true) {
-	        System.out.print("Sezione (A-D): ");
-	        String inputSezione = scanner.nextLine().toUpperCase();
-	        if (inputSezione.length() == 1) {
-	            sezione = inputSezione.charAt(0);
-	            if (sezione >= 'A' && sezione <= 'D') {
-	                break;
-	            }
-	        }
-	        System.out.println("[ERRORE] La sezione deve essere una singola lettera tra A, B, C e D. Riprova.");
-	    }
-	    Studente nuovoStudente = new Studente(nome, cognome, annoNascita, classe, sezione);
-	    int annoCert = 0;
-	    while (true) {
-	        System.out.print("Anno rilascio certificato medico (es. 2025 o 2026): ");
-	        try {
-	            annoCert = Integer.parseInt(scanner.nextLine());
-	            if (annoCert >= 2020 && annoCert <= 2026) {
-	                break;
-	            } else {
-	                System.out.println("[ERRORE] L'anno del certificato non sembra plausibile. Riprova.");
-	            }
-	        } catch (NumberFormatException e) {
-	            System.out.println("[ERRORE] Inserisci un anno numerico valido.");
-	        }
-	    }
-	    System.out.print("Cognome medico certificatore: ");
-	    String medico = scanner.nextLine();
-	    nuovoStudente.impostaCertificato(annoCert, medico);
-	    studenti.add(nuovoStudente);
-	    System.out.println("\n[SUCCESSO] Studente registrato! Matricola assegnata: " + nuovoStudente.getMatricola());
+		System.out.println("\n*NUOVA ISCRIZIONE STUDENTE*");
+		System.out.print("Nome: ");
+		String nome = scanner.nextLine();
+		System.out.print("Cognome: ");
+		String cognome = scanner.nextLine();
+		int annoNascita = 0;
+		while (true) {
+			System.out.print("Anno di nascita: ");
+			try {
+				annoNascita = Integer.parseInt(scanner.nextLine());
+				int eta = 2026 - annoNascita;
+				if (eta >= 5 && eta <= 14) {
+					break;
+				} else {
+					System.out.println("[ERRORE] Età non compatibile con la scuola primaria (5-14 anni). Riprova.");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("[ERRORE] Inserisci un anno valido (es. 2018).");
+			}
+		}
+		int classe = 0;
+		while (true) {
+			System.out.print("Classe (1-5): ");
+			try {
+				classe = Integer.parseInt(scanner.nextLine());
+				if (classe >= 1 && classe <= 5) {
+					break;
+				} else {
+					System.out.println("[ERRORE] La classe deve essere compresa tra 1 e 5. Riprova.");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("[ERRORE] Inserisci un numero intero tra 1 e 5.");
+			}
+		}
+
+		char sezione = ' ';
+		while (true) {
+			System.out.print("Sezione (A-D): ");
+			String inputSezione = scanner.nextLine().toUpperCase();
+			if (inputSezione.length() == 1) {
+				sezione = inputSezione.charAt(0);
+				if (sezione >= 'A' && sezione <= 'D') {
+					break;
+				}
+			}
+			System.out.println("[ERRORE] La sezione deve essere una singola lettera tra A, B, C e D. Riprova.");
+		}
+		Studente nuovoStudente = new Studente(nome, cognome, annoNascita, classe, sezione);
+		int annoCorrente = 2026;
+		int annoCert = 0;
+		while (true) {
+			System.out.print("Anno rilascio certificato medico (es. 2025 o 2026): ");
+			try {
+				annoCert = Integer.parseInt(scanner.nextLine());
+
+				if (annoCorrente - annoCert > 1) {
+					System.out.println("[ERRORE] Il certificato è SCADUTO! Deve essere stato rilasciato nel "
+							+ (annoCorrente - 1) + " o nel " + annoCorrente + ". Riprova.");
+				} else if (annoCert > annoCorrente) {
+					System.out.println("[ERRORE] L'anno del certificato non può essere nel futuro! Riprova.");
+				} else {
+					break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("[ERRORE] Inserisci un anno numerico valido.");
+			}
+		}
+
+		System.out.print("Cognome medico certificatore: ");
+		String medico = scanner.nextLine();
+		nuovoStudente.impostaCertificato(annoCert, medico);
+
+		studenti.add(nuovoStudente);
+		System.out.println("\n[SUCCESSO] Studente registrato! Matricola assegnata: " + nuovoStudente.getMatricola());
 	}
 
 	private static void inserisciDocente() {
-	    System.out.println("\n*NUOVA ASSUNZIONE DOCENTE*");
-	    System.out.print("Nome: ");
-	    String nome = scanner.nextLine();
-	    System.out.print("Cognome: ");
-	    String cognome = scanner.nextLine();
-	    int annoNascita = 0;
-	    while (true) {
-	        System.out.print("Anno di nascita (1965-1995): ");
-	        try {
-	            annoNascita = Integer.parseInt(scanner.nextLine());
-	            if (annoNascita >= 1965 && annoNascita <= 1995) {
-	                break;
-	            } else {
-	                System.out.println("[ERRORE] I docenti devono essere nati tra il 1965 e il 1995. Riprova.");
-	            }
-	        } catch (NumberFormatException e) {
-	            System.out.println("[ERRORE] Inserisci un anno valido (es. 1980).");
-	        }
-	    }
-	    String materia = "";
-	    java.util.List<String> materieValide = java.util.Arrays.asList(
-	        "Italiano", "Matematica", "Scienze", "Storia", "Geografia", "Inglese", "Musica", "Arte"
-	    );
-	    	while (true) {
-	        System.out.println("Materie disponibili: " + materieValide);
-	        System.out.print("Inserisci la materia da insegnare: ");
-	        materia = scanner.nextLine();
-	        boolean materiaOk = false;
-	        for (String mv : materieValide) {
-	            if (mv.equalsIgnoreCase(materia)) {
-	                materia = mv;
-	                materiaOk = true;
-	                break;
-	            }
-	        }
-	        
-	        if (materiaOk) {
-	            break;
-	        } else {
-	            System.out.println("[ERRORE] Materia non valida per una scuola primaria! Riprova.");
-	        }
-	    }
-	    Docente nuovoDocente = new Docente(nome, cognome, annoNascita, materia);
-	    docenti.add(nuovoDocente);
-	    System.out.println("\n[SUCCESSO] Docente registrato con successo!");
+		System.out.println("\n*NUOVA ASSUNZIONE DOCENTE*");
+		System.out.print("Nome: ");
+		String nome = scanner.nextLine();
+		System.out.print("Cognome: ");
+		String cognome = scanner.nextLine();
+		int annoNascita = 0;
+		while (true) {
+			System.out.print("Anno di nascita (1965-1995): ");
+			try {
+				annoNascita = Integer.parseInt(scanner.nextLine());
+				if (annoNascita >= 1965 && annoNascita <= 1995) {
+					break;
+				} else {
+					System.out.println("[ERRORE] I docenti devono essere nati tra il 1965 e il 1995. Riprova.");
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("[ERRORE] Inserisci un anno valido (es. 1980).");
+			}
+		}
+		String materia = "";
+		java.util.List<String> materieValide = java.util.Arrays.asList("Italiano", "Matematica", "Scienze", "Storia",
+				"Geografia", "Inglese", "Musica", "Arte");
+		while (true) {
+			System.out.println("Materie disponibili: " + materieValide);
+			System.out.print("Inserisci la materia da insegnare: ");
+			materia = scanner.nextLine();
+			boolean materiaOk = false;
+			for (String mv : materieValide) {
+				if (mv.equalsIgnoreCase(materia)) {
+					materia = mv;
+					materiaOk = true;
+					break;
+				}
+			}
+
+			if (materiaOk) {
+				break;
+			} else {
+				System.out.println("[ERRORE] Materia non valida per una scuola primaria! Riprova.");
+			}
+		}
+		Docente nuovoDocente = new Docente(nome, cognome, annoNascita, materia);
+		docenti.add(nuovoDocente);
+		System.out.println("\n[SUCCESSO] Docente registrato con successo!");
 	}
 
 	private static void inserisciSocio() {
-		try {
-			System.out.print("Nome: ");
-			String nome = scanner.nextLine();
-			System.out.print("Cognome: ");
-			String cognome = scanner.nextLine();
+		System.out.println("\n*NUOVA ISCRIZIONE SOCIO CLUB PALLAVOLO*");
+		System.out.print("Nome: ");
+		String nome = scanner.nextLine();
+		System.out.print("Cognome: ");
+		String cognome = scanner.nextLine();
+		SocioClub nuovoSocio = new SocioClub(nome, cognome);
+		int annoCorrente = 2026;
+		int annoCert = 0;
 
-			SocioClub nuovoSocio = new SocioClub(nome, cognome);
+		while (true) {
+			System.out.print("Anno rilascio certificato medico (es. 2025 o 2026): ");
+			try {
+				annoCert = Integer.parseInt(scanner.nextLine());
 
-			System.out.print("Anno rilascio certificato medico: ");
-			int annoCert = Integer.parseInt(scanner.nextLine());
-			System.out.print("Cognome medico certificatore: ");
-			String medico = scanner.nextLine();
-			nuovoSocio.impostaCertificato(annoCert, medico);
-
-			sociClub.add(nuovoSocio);
-			System.out.println("[SUCCESSO] Socio registrato correttamente!");
-		} catch (Exception e) {
-			System.out.println("[ERRORE] Inserimento fallito: " + e.getMessage());
+				if (annoCorrente - annoCert > 1) {
+					System.out.println("[ERRORE] Il certificato è SCADUTO! Deve essere stato rilasciato nel "
+							+ (annoCorrente - 1) + " o nel " + annoCorrente + ". Riprova.");
+				} else if (annoCert > annoCorrente) {
+					System.out.println("[ERRORE] L'anno del certificSato non può essere nel futuro! Riprova.");
+				} else {
+					break;
+				}
+			} catch (NumberFormatException e) {
+				System.out.println("[ERRORE] Inserisci un anno numerico valido.");
+			}
 		}
+
+		System.out.print("Cognome medico certificatore: ");
+		String medico = scanner.nextLine();
+		nuovoSocio.impostaCertificato(annoCert, medico);
+
+		sociClub.add(nuovoSocio);
+		System.out.println("\n[SUCCESSO] Socio registrato con successo!");
 	}
 
 	private static void stampaStudenti() {

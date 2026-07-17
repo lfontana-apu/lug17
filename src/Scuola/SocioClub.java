@@ -40,4 +40,9 @@ public class SocioClub implements Certificato {
 		return nome + " " + cognome + " | Socio Club Pallavolo | Certificato: Anno " + annoRilascioCertificato
 				+ " (Dr. " + cognomeMedico + ")";
 	}
+
+	@Override
+	public boolean isCertificatoValido(int annoCorrente) {
+		return (annoCorrente - this.annoRilascioCertificato) <= 3;
+	}
 }

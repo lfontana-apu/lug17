@@ -103,4 +103,9 @@ public class Studente extends Persona implements Certificato {
 				: " | Nessun certificato medico registrato";
 		return super.toString() + " | Matricola: " + matricola + " | Classe: " + classe + sezione + infoCertificato;
 	}
+	
+	@Override
+	public boolean isCertificatoValido(int annoCorrente) {
+		return (annoCorrente - this.annoRilascioCertificato) <= 3;
+	}
 }
